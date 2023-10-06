@@ -1,7 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QrController;
+use App\Http\Controllers\BankController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +19,18 @@ use App\Http\Controllers\QrController;
 */
 
 
-//Auth::routes();
+// Auth::routes() except register
+Auth::routes(['register' => false]);
 
 Route::get('/', [QrController::class, 'index'])->name('qr.index');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('banks', App\Http\Controllers\BankController::class);
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+Route::post('/qr/generate', [QrController::class, 'generate'])->name('qr.generate');
 
-Route::resource('registers', App\Http\Controllers\RegisterController::class);
+Route::get('/qr/{id}', [QrController::class, 'show'])->name('qr.show');
+
+//group auth middleware
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('banks', BankController::class);
+    Route::resource('registers', RegisterController::class);
+});

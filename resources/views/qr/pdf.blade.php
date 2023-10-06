@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="title" content="Generar QR  para pago móvil">
-    <meta name="description" content="Puedes generar tu código QR gratis para facilitar a tus clientes los datos de tu pago móvil.">
+    <meta name="description"
+        content="Puedes generar tu código QR gratis para facilitar a tus clientes los datos de tu pago móvil.">
     <meta name="keywords" content="qr, pago movil, clientes, pago, generar qr, qr pago movil, venezuela">
     <meta name="robots" content="index, follow">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -13,10 +14,11 @@
     <meta name="author" content="Reta110">
 
     <title>{{ env('APP_NAME', 'ElQr') }}</title>
-    <link rel="icon" type="image/x-icon" href="{{asset('images/favicon.ico')}}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
 
     <!-- Fonts -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
     <!-- Styles -->
     <style>
@@ -424,49 +426,54 @@
 
 <body class="antialiased ">
     <div class="relative flex items-top justify-center min-h-screen bg-white bg-white sm:items-center py-4 sm:pt-0">
-        @if (Route::has('login'))
-        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-            @auth
-            <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-            @else
-            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+        {{--  @if (Route::has('login'))
+            <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                @auth
+                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                @else
+                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
-            @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-            @endif
-            @endauth
-        </div>
-        @endif
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}"
+                            class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                    @endif
+                @endauth
+            </div>
+        @endif --}}
 
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
 
-            <div class="mx-auto bg-white text-center" style="">
-                <div class="text-center col-3  ml-2">
-                    <img src="{{asset('images/Banco-de-venezuela.jpeg')}}" style="margin-left:-25px">
+            <div class="mx-auto bg-white text-left" style="">
+                <div class="text-left col-3 ml-2">
+                    @if (file_exists(public_path('storage/' . $register->logo)))
+                        <img src="{{ asset('storage/' . $register->logo) }}" style="margin-left:-25px">
+                    @else
+                        <h4>Banco: {{ $register->bank->name }}</h4>
+                    @endif
                 </div>
             </div>
 
             <div class="flex justify-center mt-2 sm:items-center sm:justify-between">
                 <div class="ml-4 text-center col-12 text-sm text-gray-600 sm:text-center sm:ml-0">
-                    <h4>{{ $name }}</h4>
+                    <h4>{{ $register->name }}</h4>
                 </div>
             </div>
 
             <div class="mx-auto bg-white" style="text-align:center">
                 <div class="text-center col-12 text-align:center">
-                    {!! QrCode::size(400)->margin(1)->generate("SMSTO:{$bankPhone}:{$text}"); !!}
+                    {!! QrCode::size(400)->margin(1)->generate("SMSTO:{$register->bank->code}:{$text}") !!}
                 </div>
             </div>
 
             <div class="flex justify-center mt-2 sm:items-center sm:justify-between">
                 <div class="ml-4 text-center col-12 text-sm text-gray-600 sm:text-center sm:ml-0">
-                    <h5>{{env('WEBSITE', 'www.tuqr.com.ve')}}</h5>
+                    <h6>{{ env('WEBSITE', 'www.elqr.shop') }}</h6>
                 </div>
             </div>
 
             <div class="flex justify-center mt-2 sm:items-center sm:justify-between">
                 <div class="ml-4 text-center col-12 text-sm text-gray-600 sm:text-center sm:ml-0">
-                    <h4>{{ $bankName }}</h4>
+                    <h5>Banco: {{ $register->bank->name }}</h5>
                 </div>
             </div>
 
@@ -476,8 +483,13 @@
 
             <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
                 <div class="text-center col-12">
-                    <button onclick="printHTML()" class="no-print btn btn-success">Imprimir</button>
-                    <a href="/" class="btn no-print">Volver</a>
+                    <button onclick="printHTML()" class="no-print btn btn-success">Descargar</button>
+                    <a href="whatsapp://send?text=Acá puedes visualizar los datos para el pago móvil de {{ $register->name }}: {{ url()->full() }}"
+                        data-action="share/whatsapp/share" class="btn btn-info no-print">
+                        Compartir por Whatsapp
+                    </a>
+
+                    <a href="/" class="btn btn-secondary no-print">Volver</a>
                     <script>
                         function printHTML() {
                             if (window.print) {

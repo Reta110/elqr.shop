@@ -5,18 +5,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="title" content="Generar QR  para pago móvil">
-    <meta name="description" content="Puedes generar tu código QR gratis para facilitar a tus clientes los datos de tu pago móvil.">
+    <meta name="description"
+        content="Puedes generar tu código QR gratis para facilitar a tus clientes los datos de tu pago móvil.">
     <meta name="keywords" content="qr, pago movil, clientes, pago, generar qr, qr pago movil, venezuela">
     <meta name="robots" content="index, follow">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="Spanish">
     <meta name="author" content="Reta110">
     <title>{{ env('APP_NAME', 'ElQr') }}</title>
-    <link rel="icon" type="image/x-icon" href="{{asset('images/favicon.ico')}}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
 
     <!-- Fonts -->
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <!-- Styles -->
     <style>
         /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
@@ -67,8 +69,9 @@
 
         .bg-white {
             --bg-opacity: 1;
-            background-color: #fff;
-            background-color: rgba(255, 255, 255, var(--bg-opacity))
+
+            background: rgb(255, 255, 255);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(230, 230, 230, 1) 100%);
         }
 
         .bg-gray-100 {
@@ -404,71 +407,102 @@
         }
     </style>
 
-    <style>
-        body {}
-    </style>
 </head>
 
-<body class="antialiased ">
-    <div class="relative flex items-top justify-center min-h-screen bg-white bg-white sm:items-center py-4 sm:pt-0">
-        @if (Route::has('login'))
-        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-            @auth
-            <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-            @else
-            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+<body class="antialiased bg-white">
+    <div class="relative flex items-top justify-center min-h-screen   sm:items-center py-4 sm:pt-0">
+       {{--  @if (Route::has('login'))
+            <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                @auth
+                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                @else
+                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
-            @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-            @endif
-            @endauth
-        </div>
-        @endif
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}"
+                            class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                    @endif
+                @endauth
+            </div>
+        @endif --}}
 
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
 
-            <div class="col-12 mt-2 mx-auto bg-white text-center">
-                <h5>Patrocinado por</h5>
-                <img src="{{asset('images/vsr.png')}}" class="img-fluid">
-                <h6>Todo lo relacionado con vidrios y parabrisas</h6>
-                <h7>Dirección: Av. Fermin Toro Número 17. Tlf: (0246) 4312816</h7>
+            <div class="col-10 mt-8 mx-auto  text-center">
+                <h5>Bienvenido al generador de QRs para recibir pago móvil</h5>
+                <h5>Obtén el tuyo gratis</h5>
             </div>
-            <div class="col-10 mt-8 mx-auto bg-white" style="">
 
-                <h4>1.- Coloca tus datos para recibir pago móvil y crea tu QR</h4>
-                <h4>2.- Imprímelo</h4>
-                <h4>3.- Listo, tus clientes pueden leer tu QR</h4>
+            <hr>
+
+            <div class="col-10 mt-8 mx-auto  text-center">
+                <h5>¿Cómo funciona?</h5>
+                <p>Es muy sencillo, solo debes colocar tus datos y generar tu QR</p>
                 <p>
-                <p>
-                    Se les abrirá automáticamente la aplicación de mensajería con tus datos. <br>
-                    Solo deben colocar el monto deseado y enviar.
+                    Al escanear el código se abrirá automáticamente la aplicación de mensajería con los datos
+                    suministrados. <br>
+                    Así los clientes solo deberán colocar el monto a pagar y enviar.
                 </p>
+            </div>
 
-                <form class="mt-8">
-                    <div class="form-group mt-2">
-                        <label for="name">Nombre de empresa</label>
-                        <input name="name" type="text" class="form-control" min='3' id="name" aria-describedby="Telefono" required>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label for="Bank">Banco</label>
-                        {!! Form::select('bank', $banks, null, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group mt-2">
-                        <label for="Telefono">Teléfono</label>
-                        <input name="phone" type="number" class="form-control input-number" min='8' id="telefono" aria-describedby="Telefono" required>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label for="Cedula">Cédula/Rif</label>
-                        <input name='identifier' type="number" class="form-control" min='6' id="cedula" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-4">Crear</button>
-                </form>
+            <hr>
+
+            <div class="col-10 mt-8 mx-auto  text-center">
+                <h5>Modelo de ejemplo</h5>
+                <p>Puedes probar escaneando el siguiente código QR</p>
+                <img src="{{ asset('images/qr-shop-ejemplo.png') }}" width="300px" class="img-fluid">
+            </div>
+
+            <hr>
+
+            <div class="col-10 mt-8 mx-auto " style="">
+
+                <h5 class="text-center">Pasos a seguir</h5>
+
+
+                <ul>
+                    <li>Coloca tus datos para recibir pago móvil y crea tu QR</li>
+                    <li>Imprímelo</li>
+                    <li>Listo, tus clientes pueden leer tu QR</li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <div class="col-10 mt-8 mx-auto " style="">
+
+                <h5 class="text-center">Ingresar datos</h5>
+
+                {!! Form::open(['route' => 'qr.generate', 'method' => 'POST']) !!}
+                <div class="form-group mt-2">
+                    <label for="name">Nombre de empresa</label>
+                    <input name="name" type="text" class="form-control" min='3' id="name"
+                        aria-describedby="Telefono" required>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="bank_id">Banco</label>
+                    {!! Form::select('bank_id', $banks, null, ['class' => 'form-control']) !!}
+                </div>
+                <div class="form-group mt-2">
+                    <label for="Telefono">Teléfono</label>
+                    <input name="phone" type="number" class="form-control input-number" min='8' id="telefono"
+                        aria-describedby="Telefono" required>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="Cedula">Cédula/Rif</label>
+                    <input name='identifier' type="number" class="form-control" min='6' id="cedula" required>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-info mt-4">Generar</button>
+                </div>
+                {!! Form::close() !!}
             </div>
 
             <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-                <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-center sm:ml-0">
-                        <h6>{{env('WEBSITE', ' www.tuqr.com.ve')}}</h6>
+                <div class="flex mt-4 sm:items-center sm:justify-between">
+                    <div class="ml-4 text-sm text-gray-500 sm:text-center sm:ml-0">
+                        <h6>{{ env('WEBSITE', ' www.elqr.shop') }}</h6>
+                        <h6>By: <a href="https://github.com/Reta110/elqr.shop" target="_blank">@Reta110</a></h6>
                     </div>
                 </div>
             </div>

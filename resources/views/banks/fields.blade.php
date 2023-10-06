@@ -1,7 +1,7 @@
 <!-- Identifier Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('identifier', 'Identifier:') !!}
-    {!! Form::number('identifier', null, ['class' => 'form-control']) !!}
+    {!! Form::label('name', 'Name:') !!}
+    {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Phone Field -->
@@ -14,12 +14,6 @@
 <div class="form-group col-sm-6">
     {!! Form::label('code', 'Code:') !!}
     {!! Form::number('code', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Phone To Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('phone_to', 'Phone To:') !!}
-    {!! Form::number('phone_to', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

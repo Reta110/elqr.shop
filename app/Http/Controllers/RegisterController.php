@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateRegisterRequest;
-use App\Http\Requests\UpdateRegisterRequest;
-use App\Repositories\RegisterRepository;
-use App\Http\Controllers\AppBaseController;
-use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\Bank;
+use Illuminate\Http\Request;
+use App\Repositories\RegisterRepository;
+use App\Http\Controllers\AppBaseController;
+use App\Http\Requests\CreateRegisterRequest;
+use App\Http\Requests\UpdateRegisterRequest;
 
 class RegisterController extends AppBaseController
 {
@@ -42,7 +43,8 @@ class RegisterController extends AppBaseController
      */
     public function create()
     {
-        return view('registers.create');
+        $banks = Bank::pluck('name', 'id');
+        return view('registers.create', compact('banks'));
     }
 
     /**
@@ -72,6 +74,7 @@ class RegisterController extends AppBaseController
      */
     public function show($id)
     {
+        //$register with bank
         $register = $this->registerRepository->find($id);
 
         if (empty($register)) {
@@ -80,7 +83,10 @@ class RegisterController extends AppBaseController
             return redirect(route('registers.index'));
         }
 
-        return view('registers.show')->with('register', $register);
+        $text = "Pagar" . ' ' . $register->bank->code . ' ' . $register->phone . ' ' . $register->identifier . ' ';
+
+
+        return view('qr.pdf', compact('register', 'text'));
     }
 
     /**
@@ -100,7 +106,9 @@ class RegisterController extends AppBaseController
             return redirect(route('registers.index'));
         }
 
-        return view('registers.edit')->with('register', $register);
+        $banks = Bank::pluck('name', 'id');
+
+        return view('registers.edit', compact('banks', 'register'));
     }
 
     /**

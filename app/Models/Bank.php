@@ -23,7 +23,7 @@ class Bank extends Model
     use HasFactory;
 
     public $table = 'banks';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -33,10 +33,10 @@ class Bank extends Model
 
 
     public $fillable = [
-        'identifier',
+        'name',
         'phone',
         'code',
-        'phone_to'
+        'logo'
     ];
 
     /**
@@ -58,13 +58,12 @@ class Bank extends Model
      * @var array
      */
     public static $rules = [
-        'identifier' => 'required',
+        'name' => 'required',
         'phone' => 'required',
         'code' => 'required',
-        'phone_to' => 'required',
+        'phone' => 'required',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
 
-    
 }

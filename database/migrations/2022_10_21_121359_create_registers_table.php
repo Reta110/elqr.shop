@@ -15,11 +15,15 @@ class CreateRegistersTable extends Migration
     {
         Schema::create('registers', function (Blueprint $table) {
             $table->id();
-            $table->string('bank');
             $table->string('name');
             $table->string('phone');
             $table->string('identifier');
+
+            $table->unsignedBigInteger('bank_id');
+            $table->foreign('bank_id')->references('id')->on('banks');
+
             $table->timestamps();
+            $table->softDeletes('deleted_at');
         });
     }
 

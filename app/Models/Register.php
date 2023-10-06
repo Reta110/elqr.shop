@@ -23,7 +23,7 @@ class Register extends Model
     use HasFactory;
 
     public $table = 'registers';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -33,7 +33,7 @@ class Register extends Model
 
 
     public $fillable = [
-        'bank',
+        'bank_id',
         'name',
         'phone',
         'identifier'
@@ -46,7 +46,6 @@ class Register extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'bank' => 'string',
         'name' => 'string',
         'phone' => 'string',
         'identifier' => 'string'
@@ -58,7 +57,7 @@ class Register extends Model
      * @var array
      */
     public static $rules = [
-        'bank' => 'required|string|max:255',
+        'bank_id' => 'required|string|max:255',
         'name' => 'required|string|max:255',
         'phone' => 'required|string|max:255',
         'identifier' => 'required|string|max:255',
@@ -66,5 +65,8 @@ class Register extends Model
         'updated_at' => 'nullable'
     ];
 
-    
+    public function bank()
+    {
+        return $this->hasOne(Bank::class, 'id', 'bank_id');
+    }
 }

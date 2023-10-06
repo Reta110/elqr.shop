@@ -15,11 +15,12 @@ class CreateBanksTable extends Migration
     {
         Schema::create('banks', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('identifier');
-            $table->bigInteger('phone');
-            $table->bigInteger('code');
-            $table->bigInteger('phone_to');
+            $table->string('name');
+            $table->string('phone');
+            $table->string('code');
+            $table->string('logo');
             $table->timestamps();
+            $table->softDeletes('deleted_at');
         });
     }
 
